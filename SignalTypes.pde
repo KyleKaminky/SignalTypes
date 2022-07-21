@@ -10,6 +10,8 @@ int w;              // Width of entire wave
 int maxwaves = 10;   // total # of waves to add together
 
 int TEXT_COLOR = #FFFFFF;
+int DIGITAL_SAMPLE_PERIOD = 15;
+int digital_y_offset = 150;
 
 float center_x, center_y;
 float gap = 200;
@@ -26,16 +28,19 @@ void setup() {
   center_x = width/2;
   center_y = height/2;
   
-  colorMode(RGB, 255, 255, 255, 100);
   w = width/4 + 50;
 
   for (int i = 0; i < maxwaves; i++) {
-    amplitude[i] = random(-10,50);
+    amplitude[i] = random(-10,40);
+    amplitude[i] = 0;
     float period = random(100,600); // How many pixels before the wave repeats
     dx[i] = (TWO_PI / period) * xspacing;
   }
 
   yvalues = new float[w*2];
+  
+  stroke(TEXT_COLOR);
+  fill(TEXT_COLOR);
 }
 
 void draw() {
@@ -70,45 +75,40 @@ void calcWave() {
 
 void renderWave() {
   // A simple way to draw the wave with an ellipse at each location
-  noStroke();
-  //Maybe change color based on y value
-  fill(255,50);
+  
   ellipseMode(CENTER);
   for (int x = 1; x < yvalues.length; x++) {
-    fill(255);
+    fill(TEXT_COLOR);
+    
     //Analog, Continuous
     ellipse(x*xspacing+gap,height/2+yvalues[x] - (center_y-gap)/2,3,3);
     
-    //
+    // Digital, Continuous
+    line((x-1)*xspacing+gap, height/2+(int(yvalues[x-1]/20)*20)+(center_y-gap)/2, x*xspacing+gap, height/2+(int(yvalues[x]/20)*20)+(center_y-gap)/2);
     
-    fill(255);
-    //Maybe make this a line?
-    stroke(TEXT_COLOR);
-    line((x-1)*xspacing+gap, height/2+(int(yvalues[x-1]/20)*20)+150, x*xspacing+gap, height/2+(int(yvalues[x]/20)*20)+150);
-    //ellipse(x*xspacing,height/2+(int(yvalues[x]/20)*20)+150, 5, 5);
     
-    if (x % 15 == 0){
-      stroke(TEXT_COLOR);
+    if (x % DIGITAL_SAMPLE_PERIOD == 0){
       noFill();
-      line(x*xspacing+center_x+15, center_y - (center_y - gap)/2+15, x*xspacing+center_x+15, height/2+yvalues[x] - (center_y-gap)/2+15);
-      ellipse(x*xspacing+center_x+15,height/2+yvalues[x] - (center_y-gap)/2+15,6,6);
       
-      line(x*xspacing+center_x+15, center_y + (center_y - gap)/2+15, x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150+15);
-      ellipse(x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150+15, 6,6);
+      // Discrete, Analog Signal
+      line(x*xspacing+center_x+15, center_y - (center_y - gap)/2, x*xspacing+center_x+15, height/2+yvalues[x] - (center_y-gap)/2);
+      ellipse(x*xspacing+center_x+15,height/2+yvalues[x] - (center_y-gap)/2,6,6);
+      
+      // Discrete, Digital Signal
+      line(x*xspacing+center_x+15, center_y + (center_y - gap)/2, x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+(center_y-gap)/2);
+      ellipse(x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+(center_y-gap)/2, 6,6);
     }
   }
-  
-  //Make this the digital signal.
-  //for (int x = 0; x < yvalues.length; x++) {
-  //  ellipse(x*xspacing,height/2+yvalues[x]+50,16,16);
-  //}
   
 }
 
 void drawAxes() {
+  // X, Y Axes Lines
   stroke(TEXT_COLOR);
   line(gap, center_y, width - gap, center_y);
   line(center_x, gap, center_x, height - gap);
+  
+  // Axes Labels
   fill(TEXT_COLOR);
   textSize(25);
   textAlign(CENTER,CENTER);
