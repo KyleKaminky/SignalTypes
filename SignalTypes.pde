@@ -43,6 +43,7 @@ void draw() {
   drawAxes();
   calcWave();
   renderWave();
+  //saveFrame("output3/SignalTypes_####.png");
 }
 
 void calcWave() {
@@ -64,6 +65,7 @@ void calcWave() {
       x+=dx[j];
     }
   }
+  
 }
 
 void renderWave() {
@@ -88,11 +90,11 @@ void renderWave() {
     if (x % 15 == 0){
       stroke(TEXT_COLOR);
       noFill();
-      line(x*xspacing+center_x+15, center_y - (center_y - gap)/2, x*xspacing+center_x+15, height/2+yvalues[x] - (center_y-gap)/2);
-      ellipse(x*xspacing+center_x+15,height/2+yvalues[x] - (center_y-gap)/2,6,6);
+      line(x*xspacing+center_x+15, center_y - (center_y - gap)/2+15, x*xspacing+center_x+15, height/2+yvalues[x] - (center_y-gap)/2+15);
+      ellipse(x*xspacing+center_x+15,height/2+yvalues[x] - (center_y-gap)/2+15,6,6);
       
-      line(x*xspacing+center_x+15, center_y + (center_y - gap)/2, x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150);
-      ellipse(x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150, 6,6);
+      line(x*xspacing+center_x+15, center_y + (center_y - gap)/2+15, x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150+15);
+      ellipse(x*xspacing+center_x+15, height/2+(int(yvalues[x]/20)*20)+150+15, 6,6);
     }
   }
   
