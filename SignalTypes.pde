@@ -31,8 +31,7 @@ void setup() {
   w = width/4 + 50;
 
   for (int i = 0; i < maxwaves; i++) {
-    amplitude[i] = random(-10,40);
-    amplitude[i] = 0;
+    amplitude[i] = random(-10, 40);
     float period = random(100,600); // How many pixels before the wave repeats
     dx[i] = (TWO_PI / period) * xspacing;
   }
