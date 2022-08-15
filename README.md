@@ -4,4 +4,8 @@ Figuring Signal Types Out --  This sketch was made to help visualize the differe
 
 Special thanks to Daniel Shiffman, his example on additive waves (https://processing.org/examples/additivewave.html) was an inspiration and great starting point.
 
-![](https://github.com/KyleKaminky/SignalTypes/blob/main/SignalTypes.gif)
+
+
+
+https://user-images.githubusercontent.com/89677321/184565007-118fbbfb-b9f5-4df0-943b-72b4a8bfcb8b.mov
+
